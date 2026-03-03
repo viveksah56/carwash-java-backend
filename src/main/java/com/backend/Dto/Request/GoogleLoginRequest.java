@@ -1,6 +1,11 @@
+package com.backend.Dto.Request;
 
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
+@Data
+public class GoogleLoginRequest {
 
-
-package com.backend.Dto.Request;public class GoogleLoginRequest {
+    @NotBlank
+    private String idToken;
 }

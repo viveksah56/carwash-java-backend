@@ -1,6 +1,7 @@
 package com.backend.Config;
 
 import com.backend.Filter.JwtAuthenticationFilter;
+import com.backend.Handler.CustomOAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomOAuth2LoginSuccessHandler customOAuth2LoginSuccessHandler;
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity security) throws Exception {
@@ -45,6 +47,10 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().permitAll()
                 ))
+                .oauth2Login(oauth2Login -> oauth2Login
+                        .loginPage("/login")
+                        .successHandler(customOAuth2LoginSuccessHandler)
+                        .permitAll())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         log.info("JWT Authentication Filter added before UsernamePasswordAuthenticationFilter");
         return security.build();

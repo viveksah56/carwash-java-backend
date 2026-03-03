@@ -62,6 +62,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserResponse> findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(UserResponse::convertToUserResponse);
+    }
+
+    @Override
+    public UserResponse getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return UserResponse.convertToUserResponse(user);
+    }
+
+    @Override
     public PaginationResponse<UserResponse> getAllUsers(int page, int size, String search, String sortBy, String sortDir) {
         String sortField = Optional.ofNullable(sortBy).filter(s -> !s.isBlank()).orElse("createdAt");
         Sort.Direction sortDirection = Optional.ofNullable(sortDir)

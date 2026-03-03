@@ -1,47 +1,45 @@
 package com.backend.Dto.Response;
 
-import com.backend.Entity.Subscription;
+import com.backend.Entity.SubscriptionPlan;
 import com.backend.Enum.PlanType;
-import com.backend.Enum.SubscriptionStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubscriptionResponse {
+public class SubscriptionPlanResponse {
 
-    private String subscriptionId;
-    private String planName;
+    private String planId;
+    private String name;
     private PlanType planType;
     private Integer totalWashes;
-    private Integer usedWashes;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Integer durationDays;
     private BigDecimal price;
-    private SubscriptionStatus subStatus;
-    private String customerId;
+    private Boolean active;
+    private String description;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private  String createdBy;
 
-    public static SubscriptionResponse convertToSubscriptionResponse(Subscription subscription) {
-        if (subscription == null) {
-            return null;
-        }
-
-        return SubscriptionResponse.builder()
-                .subscriptionId(subscription.getSubscriptionId())
-                .planName(subscription.getPlanName())
-                .planType(subscription.getPlanType())
-                .totalWashes(subscription.getTotalWashes())
-                .usedWashes(subscription.getUsedWashes())
-                .startDate(subscription.getStartDate())
-                .endDate(subscription.getEndDate())
-                .price(subscription.getPrice())
-                .subStatus(subscription.getSubStatus())
-                .customerId(subscription.getUser() != null ? subscription.getUser().getUserId() : null)
+    public static SubscriptionPlanResponse convertTo(SubscriptionPlan subscriptionPlan) {
+        if (subscriptionPlan == null) return null;
+        return SubscriptionPlanResponse.builder()
+                .planId(subscriptionPlan.getPlanId())
+                .name(subscriptionPlan.getName())
+                .planType(subscriptionPlan.getPlanType())
+                .totalWashes(subscriptionPlan.getTotalWashes())
+                .durationDays(subscriptionPlan.getDurationDays())
+                .price(subscriptionPlan.getPrice())
+                .active(subscriptionPlan.getActive())
+                .description(subscriptionPlan.getDescription())
+                .createdAt(subscriptionPlan.getCreatedAt())
+                .updatedAt(subscriptionPlan.getUpdatedAt())
+                .createdBy(subscriptionPlan.getCreatedBy())
                 .build();
     }
 }

@@ -7,4 +7,5 @@ import com.backend.Dto.Response.UserResponse;
 public interface AuthService {
     LoginResponse login(LoginRequest request);
     UserResponse getLoggedInUser();
+    LoginResponse loginWithGoogle(String idToken);
 }
